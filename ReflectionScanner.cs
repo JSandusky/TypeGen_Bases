@@ -432,7 +432,17 @@ namespace typegen
                         AdvanceLexer(lexer);
                         AdvanceLexer(lexer);
                         value = lexer.TokenText;
+                        if (lexer.Peek() == ':')
+                        {
+                            value += ":";
+                            AdvanceLexer(lexer);
+                            AdvanceLexer(lexer);
+                            value += lexer.TokenText;
+                        }
                     }
+                    if (lexer.Peek() == ',')
+                        AdvanceLexer(lexer);
+
                     bindingTraits.Add(new Trait(key, value));
                 }
 
@@ -760,6 +770,8 @@ namespace typegen
                         AdvanceLexer(lexer);
                     }
                     else if (lexer.token == ',')
+                        AdvanceLexer(lexer);
+                    else
                         AdvanceLexer(lexer);
                 } while (lexer.token != '>' && lexer.token != Token.EOF);
 
